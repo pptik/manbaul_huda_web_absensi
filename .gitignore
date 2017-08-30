@@ -61,6 +61,7 @@ typings/
 # dotenv environment variables file
 .env
 # security file
-setup/database.js
+setup/rmq.json
+setup/configs.json
 
 # End of https://www.gitignore.io/api/node
