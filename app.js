@@ -90,10 +90,10 @@ database.connect(function (err, db) {
         app.db = db;
         module.exports = app;
         var index = require('./routes/index');
-        var users = require('./routes/users');
+
 
         app.use('/', index);
-        app.use('/api/users', users);
+
 
 
         app.use(function(req, res, next) {

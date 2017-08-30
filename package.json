@@ -4,7 +4,9 @@
   "description": "website absensi pesantren manbaul huda",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./bin/www",
+    "devstart": "nodemon ./bin/www"
   },
   "author": "edo",
   "license": "ISC",
@@ -19,6 +21,9 @@
     "moment": "^2.18.1",
     "mongodb": "^2.2.30",
     "morgan": "~1.8.1",
+    "express-flash": "git://github.com/RGBboy/express-flash.git",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.15.3",
     "serve-favicon": "~2.4.2"
   }
 }
