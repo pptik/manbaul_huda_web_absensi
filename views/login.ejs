@@ -41,7 +41,10 @@
 
     <div class="left menu">
       <a class="item" href="/">
-        Absensi Home
+        Home
+      </a>
+      <a class="item" href="/absensilist">
+        Absensi
       </a>
     </div>
     <div class="right menu">
@@ -52,20 +55,15 @@
     <div class="ui one column center aligned grid" id="loginform">
       <div class="column six wide form-holder">
         <h2 class="center aligned header form-head">Sign in</h2>
-        <form class="ui form" method="post" action="{{url('user/signin')}}">
-          <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+        <form class="ui form" method="post" action="/users/login/action">
           <div class="ui form">
               <%if (messages.pesan) { %>
             <div class="ui red message">
-              <span><% messages.pesan %> </span>
+              <span ><%= messages.pesan %> </span>
             </div>
               <% } %>
-            if(messages.pesan){
-
-
-
             <div class="field">
-              <input type="text" placeholder="Username" name="Username">
+              <input type="text" placeholder="Username atau Nomor Induk" name="Entity">
             </div>
             <div class="field">
               <input type="password" placeholder="Password" name="Password">
