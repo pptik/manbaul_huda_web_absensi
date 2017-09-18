@@ -92,7 +92,7 @@ findUserByString = (SearchString) => {
         userCollection.find({
             RoleID:2,
             $text:{
-                $search:SearchString
+                $search:  SearchString
             }
         }).toArray( (err, results) => {
             if(err)reject(err);
