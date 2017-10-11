@@ -90,8 +90,8 @@
       <file leaf-file-name="absensi.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/absensi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="156" column="74" lean-forward="true" selection-start-line="156" selection-start-column="74" selection-end-line="156" selection-end-column="74" />
+            <state relative-caret-position="375">
+              <caret line="157" column="78" lean-forward="false" selection-start-line="157" selection-start-column="78" selection-end-line="157" selection-end-column="78" />
               <folding />
             </state>
           </provider>
@@ -334,7 +334,7 @@
       <workItem from="1507275489519" duration="2011000" />
       <workItem from="1507631076224" duration="7838000" />
       <workItem from="1507686519897" duration="587000" />
-      <workItem from="1507694755868" duration="284000" />
+      <workItem from="1507694755868" duration="494000" />
     </task>
     <task id="LOCAL-00001" summary="opening ACT">
       <created>1504065885504</created>
@@ -378,11 +378,18 @@
       <option name="project" value="LOCAL" />
       <updated>1507686980001</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="nama ruangan dan kode ruangan">
+      <created>1507695057322</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1507695057323</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47876000" />
+    <option name="totallyTimeSpent" value="48086000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -416,7 +423,8 @@
     <MESSAGE value="opening ACT" />
     <MESSAGE value="absensi" />
     <MESSAGE value="set error if user not found" />
-    <option name="LAST_COMMIT_MESSAGE" value="set error if user not found" />
+    <MESSAGE value="nama ruangan dan kode ruangan" />
+    <option name="LAST_COMMIT_MESSAGE" value="nama ruangan dan kode ruangan" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -773,8 +781,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/absensi.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="156" column="74" lean-forward="true" selection-start-line="156" selection-start-column="74" selection-end-line="156" selection-end-column="74" />
+        <state relative-caret-position="375">
+          <caret line="157" column="78" lean-forward="false" selection-start-line="157" selection-start-column="78" selection-end-line="157" selection-end-column="78" />
           <folding />
         </state>
       </provider>
