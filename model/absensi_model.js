@@ -38,6 +38,21 @@ findMacByMacID = (MacID) => {
         });
     });
 };
+findAbsenByMacRfidDate = (MacID,RFID,DateMin,DateMax) => {
+    return new Promise((resolve, reject)=>{
+        database.collection(MacID).find({$and:[
+            {rf_id:RFID}, {
+                date:{
+                    $gte:DateMin,
+                    $lt:DateMax
+                }
+            }
+            ]}).toArray( (err, results) => {
+            if(err)reject(err);
+            else resolve(results);
+        });
+    });
+};
 getListAbsenByMacID = (MacID) => {
     return new Promise((resolve, reject)=>{
         database.collection(MacID).find().toArray( (err, results) => {
@@ -125,6 +140,7 @@ function getListAbsenTodayByMacID(MacID,callback) {
         }
     });
 }
+
 function getDetailMacID(MacID,callback) {
     macCollection.findOne({mac:MacID},function (err,result) {
        if(err)callback(err,null);
@@ -237,5 +253,6 @@ module.exports = {
     updateDataMacList:updateDataMacList,
     deleteMacFromMacListDocument:deleteMacFromMacListDocument,
     promiseGetDetailUser:promiseGetDetailUser,
-    promiseGetDetailMacID:promiseGetDetailMacID
+    promiseGetDetailMacID:promiseGetDetailMacID,
+    findAbsenByMacRfidDate:findAbsenByMacRfidDate
 };

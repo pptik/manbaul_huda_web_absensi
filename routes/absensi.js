@@ -64,7 +64,6 @@ router.post('/insert', async(req, res) => {
             res.status(200).send({success: false, message: "Data Gagal Diambil"});
         }
     }
-
 });
 router.post('/update-mac', async(req, res) => {
     let query=req.body;
@@ -131,6 +130,45 @@ router.get('/today/list', async(req, res) => {
     }catch (err){
         console.log(err);
         res.status(200).send({success: false, message: "Data Gagal Diambil"});
+    }
+});
+router.post('/getby/date/noinduk', async(req, res) => {
+    let query=req.body;
+    let SearchString=query.SearchString;
+    let TanggalInput=query.TanggalInput;
+    if (SearchString===undefined||TanggalInput===undefined)res.status(200).send({success: false, message: "Parameter tidak Lengkap"});
+    else {
+        try{
+            let generatedDate=moment(TanggalInput,"DD/MM/YYYY",'id');
+            let generatedDate2=moment(TanggalInput,"DD/MM/YYYY",'id').add(1,'days');
+            let lastDate=new Date(generatedDate);
+            let newDate = new Date(generatedDate2);
+            console.log(lastDate);
+            console.log(newDate);
+            let listUsers=await userModel.findUserByString(SearchString);
+            let listMacs=await absensiModel.getListAllMac();
+            let results=Array();
+            for(let listuser of listUsers){
+                let listabsen=Array();
+                for (let listrfid of listuser.rf_id){
+                    for(let listmac of listMacs){
+                        let result=await absensiModel.findAbsenByMacRfidDate(listmac.mac,listrfid,lastDate,newDate);
+                        if(result.length>0){
+                            for(let i = 0; i< result.length; i++){
+                                listabsen.push(result[i]);
+                            }
+
+                        }
+                    }
+                }
+                listuser.listabsen=listabsen;
+                results.push(listuser);
+            }
+            res.status(200).send({success: true, message: "Data Berhasil Diambil",results:results});
+        }catch (err){
+            console.log(err);
+            res.status(200).send({success: false, message: "Data Gagal Diambil"});
+        }
     }
 });
 router.get('/test', async(req, res) => {
