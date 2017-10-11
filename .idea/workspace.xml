@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="90f6f1d9-11ab-4a6f-8344-7dffeb6bd322" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/absensi_model.js" afterPath="$PROJECT_DIR$/model/absensi_model.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/absensi.js" afterPath="$PROJECT_DIR$/routes/absensi.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -21,8 +20,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2900">
-              <caret line="116" column="21" lean-forward="false" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
+            <state relative-caret-position="25">
+              <caret line="46" column="23" lean-forward="true" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -88,21 +87,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="absensi.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="absensi.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/absensi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3850">
-              <caret line="154" column="114" lean-forward="false" selection-start-line="154" selection-start-column="114" selection-end-line="154" selection-end-column="114" />
+            <state relative-caret-position="333">
+              <caret line="162" column="36" lean-forward="true" selection-start-line="162" selection-start-column="36" selection-end-line="162" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="absensi_model.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="absensi_model.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/absensi_model.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="46" column="31" lean-forward="false" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+            <state relative-caret-position="336">
+              <caret line="47" column="17" lean-forward="true" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -169,8 +168,8 @@
         <option value="$PROJECT_DIR$/views/authenticated/realtime-absensi.ejs" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/model/user_model.js" />
-        <option value="$PROJECT_DIR$/routes/absensi.js" />
         <option value="$PROJECT_DIR$/model/absensi_model.js" />
+        <option value="$PROJECT_DIR$/routes/absensi.js" />
       </list>
     </option>
   </component>
@@ -334,7 +333,7 @@
       <workItem from="1507259879491" duration="35000" />
       <workItem from="1507275489519" duration="2011000" />
       <workItem from="1507631076224" duration="7838000" />
-      <workItem from="1507686519897" duration="62000" />
+      <workItem from="1507686519897" duration="438000" />
     </task>
     <task id="LOCAL-00001" summary="opening ACT">
       <created>1504065885504</created>
@@ -364,11 +363,18 @@
       <option name="project" value="LOCAL" />
       <updated>1505714911499</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="absensi">
+      <created>1507686595093</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1507686595093</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47067000" />
+    <option name="totallyTimeSpent" value="47443000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -674,6 +680,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="50">
           <caret line="2" column="38" lean-forward="false" selection-start-line="2" selection-start-column="38" selection-end-line="2" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -732,14 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2900">
-          <caret line="116" column="21" lean-forward="false" selection-start-line="116" selection-start-column="21" selection-end-line="116" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/model/user_model.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2275">
@@ -748,18 +747,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/absensi.js">
+    <entry file="file://$PROJECT_DIR$/model/absensi_model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3850">
-          <caret line="154" column="114" lean-forward="false" selection-start-line="154" selection-start-column="114" selection-end-line="154" selection-end-column="114" />
+        <state relative-caret-position="336">
+          <caret line="47" column="17" lean-forward="true" selection-start-line="47" selection-start-column="17" selection-end-line="47" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/model/absensi_model.js">
+    <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="46" column="31" lean-forward="false" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+        <state relative-caret-position="25">
+          <caret line="46" column="23" lean-forward="true" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/absensi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="162" column="36" lean-forward="true" selection-start-line="162" selection-start-column="36" selection-end-line="162" selection-end-column="36" />
           <folding />
         </state>
       </provider>
