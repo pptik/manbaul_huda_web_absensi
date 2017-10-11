@@ -153,6 +153,8 @@ router.post('/getby/date/noinduk', async(req, res) => {
                         for(let listmac of listMacs){
                             let result=await absensiModel.findAbsenByMacRfidDate(listmac.mac,listrfid,lastDate,newDate);
                             if(result.length>0){
+                                result[i].namaruangan=listmac.namaruangan;
+                                result[i].koderuangan=listmac.koderuangan;
                                 for(let i = 0; i< result.length; i++){
                                     listabsen.push(result[i]);
                                 }
