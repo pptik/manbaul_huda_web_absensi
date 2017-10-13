@@ -41,6 +41,44 @@ router.post('/delete-user', async(req, res) => {
     }
 
 });
+router.post('/delete-user-guru', async(req, res) => {
+    let query=req.body;
+    console.log(query);
+    if (query.PasswordAdmin===undefined||query._idDelete===undefined){
+        req.flash('pesan', "Silahkan Lengkapi Data");
+        res.redirect('/authenticated-data-guru');
+    }
+    else {
+        try{
+            let checkadmin= await userModel.checkIfAdmin(req.session._id);
+            if(checkadmin){
+                let passwordFromDb=checkadmin.Password;
+                if(passwordFromDb!==undefined){
+                    if(bcyrpt.compareSync(query.PasswordAdmin,passwordFromDb)){
+                        await userModel.deleteUserFromDocument(query._idDelete);
+                        req.flash('pesan', "Berhasil Menghapus data");
+                        res.redirect('/authenticated-data-guru');
+                    }else {
+                        req.flash('pesan', "Password Salah");
+                        res.redirect('/authenticated-data-guru');
+                    }
+                }else {
+                    req.flash('pesan', "Akun Belum Aktif");
+                    res.redirect('/authenticated-data-guru');
+                }
+            }else {
+                req.flash('pesan', "Gagal Meghapus Data");
+                res.redirect('/authenticated-data-guru');
+            }
+
+        }catch (err){
+            console.log(err);
+            req.flash('pesan', "Gagal Meghapus Data");
+            res.redirect('/authenticated-data-guru');
+        }
+    }
+
+});
 router.post('/updatepasswordadmin', async(req, res) => {
     let requested=req.body;
     console.log(requested);
@@ -110,6 +148,15 @@ router.get('/list/siswa', async(req, res) => {
         res.status(200).send({success: false, message: "Data Gagal Diambil"});
     }
 });
+router.get('/list/guru', async(req, res) => {
+    try{
+        let listGuru=await userModel.getListGuru();
+            res.status(200).send({success: true, message: "Data Berhasil Diambil",listguru:listGuru});
+    }catch (err){
+        console.log(err);
+        res.status(200).send({success: false, message: "Data Gagal Diambil"});
+    }
+});
 router.post('/insert/siswa', async(req, res) => {
     let query=req.body;
     console.log(query);
@@ -128,6 +175,24 @@ router.post('/insert/siswa', async(req, res) => {
         }
     }
 });
+router.post('/insert/guru', async(req, res) => {
+    let query=req.body;
+    console.log(query);
+    if(query.NoInduk===undefined||query.Nama===undefined||query.JenisKelamin===undefined||query.Password===undefined){
+        req.flash('pesan', "Gagal Menambah Data");
+        res.redirect('/authenticated-data-guru');
+    }else {
+        try{
+            await userModel.insertUserGuru(query);
+            req.flash('pesan', "Berhasil Menambah Data");
+            res.redirect('/authenticated-data-guru');
+        }catch (err){
+            console.log(err);
+            req.flash('pesan', "Gagal Menambah Data");
+            res.redirect('/authenticated-data-guru');
+        }
+    }
+});
 router.post('/edit/siswa', async(req, res) => {
     let query=req.body;
     console.log(query);
@@ -143,6 +208,24 @@ router.post('/edit/siswa', async(req, res) => {
             console.log(err);
             req.flash('pesan', "Gagal Mengubah Data");
             res.redirect('/authenticated-data-siswa');
+        }
+    }
+});
+router.post('/edit/guru', async(req, res) => {
+    let query=req.body;
+    console.log(query);
+    if(query._idEdit===undefined||query.NoIndukEdit===undefined||query.NamaEdit===undefined||query.JenisKelaminEdit===undefined){
+        req.flash('pesan', "Gagal Mengubah Data");
+        res.redirect('/authenticated-data-guru');
+    }else {
+        try{
+            await userModel.updateUserGuru(query);
+            req.flash('pesan', "Berhasil Mengubah Data");
+            res.redirect('/authenticated-data-guru');
+        }catch (err){
+            console.log(err);
+            req.flash('pesan', "Gagal Mengubah Data");
+            res.redirect('/authenticated-data-guru');
         }
     }
 });
@@ -171,6 +254,31 @@ router.post('/insert/rfid', async(req, res) => {
         }
     }
 });
+router.post('/insert/rfid/guru', async(req, res) => {
+    let query=req.body;
+    console.log(query);
+    if(query.RFID===undefined||query._id===undefined||query.RFID===""){
+        req.flash('pesan', "Silahkan Masukan Kartu Yang Valid");
+        res.redirect('/authenticated-data-guru');
+    }else {
+        try{
+            let checkRFID=await userModel.checkRFID(query.RFID);
+            if(!checkRFID){
+                await userModel.updateRfidSiswa(query);
+                req.flash('pesan', "Data Berhasil Ditambahkan");
+                res.redirect('/authenticated-data-guru');
+            }else {
+                req.flash('pesan', "Kartu RFID Sudah digunakan user lain, silahkan coba kartu yang lain");
+                res.redirect('/authenticated-data-guru');
+            }
+
+        }catch (err){
+            console.log(err);
+            req.flash('pesan', "Gagal Mengupdate Data");
+            res.redirect('/authenticated-data-guru');
+        }
+    }
+});
 router.post('/search/siswa', async(req, res) => {
     console.log(req.body);
     try{
@@ -180,6 +288,22 @@ router.post('/search/siswa', async(req, res) => {
         }else {
             let listSiswa=await userModel.findUserByString(req.body.SearchString);
             res.status(200).send({success: true, message: "Data Berhasil Diambil",listsiswa:listSiswa});
+        }
+
+    }catch (err){
+        console.log(err);
+        res.status(200).send({success: false, message: "Data Gagal Diambil"});
+    }
+});
+router.post('/search/guru', async(req, res) => {
+    console.log(req.body);
+    try{
+        if (req.body.SearchString===""){
+            let listGuru=await userModel.getListGuru();
+            res.status(200).send({success: true, message: "Data Berhasil Diambil",listguru:listGuru});
+        }else {
+            let listGuru=await userModel.findGuruByString(req.body.SearchString);
+            res.status(200).send({success: true, message: "Data Berhasil Diambil",listguru:listGuru});
         }
 
     }catch (err){

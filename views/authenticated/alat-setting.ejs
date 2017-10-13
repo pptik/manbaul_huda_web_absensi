@@ -83,6 +83,9 @@
       <a class="item" href="/authenticated-data-siswa">
         Data Siswa
       </a>
+      <a class="item" href="/authenticated-data-guru">
+        Data Guru
+      </a>
       <a class="active item">
         Data Alat
       </a>
@@ -133,10 +136,13 @@
             tr.appendChild(td = document.createElement("td"));
             td.innerHTML = "Nama Ruangan";
             tr.appendChild(td = document.createElement("td"));
+            td.innerHTML = "Status";
+            tr.appendChild(td = document.createElement("td"));
             td.innerHTML = "Aksi";
             var count=1;
-            var btn=new Array();
+            let btn=new Array();
             var editBtn=new Array();
+            var triggerBtn=new Array();
             if(Data.length>0){
 
                 for (var j=0;j<Data.length;j++){
@@ -156,6 +162,23 @@
                     tr.appendChild(td = document.createElement("td"));
                     td.innerHTML =Data[j].namaruangan;
 
+                    if(parseInt(Data[j].status)===0){
+                        tr.appendChild(td = document.createElement("td"));
+                        triggerBtn[j] = document.createElement('input');
+                        triggerBtn[j].type = "button";
+                        triggerBtn[j].id = "triggerButton"+j;
+                        triggerBtn[j].name = "triggerButton"+j;
+                        triggerBtn[j].className = "compact ui button";
+                        triggerBtn[j].nama=Data[j].Nama;
+                        triggerBtn[j]._id=Data[j]._id;
+                        triggerBtn[j].data=Data[j];
+                        triggerBtn[j].value = "on";
+                        triggerBtn[j].status=Data[j].status;
+                        td.appendChild(triggerBtn[j]);
+
+                    }else {
+
+                    }
                     tr.appendChild(td = document.createElement("td"));
                     btn[j] = document.createElement('input');
                     btn[j].type = "button";

@@ -86,11 +86,33 @@ getListSiswa = () => {
         });
     });
 };
+getListGuru = () => {
+    return new Promise((resolve, reject)=>{
+        userCollection.find({RoleID:0}).toArray( (err, results) => {
+            if(err)reject(err);
+            else resolve(results);
+        });
+    });
+};
 findUserByString = (SearchString) => {
     return new Promise((resolve, reject)=>{
         console.log(SearchString);
         userCollection.find({
             RoleID:2,
+            $text:{
+                $search:  SearchString
+            }
+        }).toArray( (err, results) => {
+            if(err)reject(err);
+            else resolve(results);
+        });
+    });
+};
+findGuruByString = (SearchString) => {
+    return new Promise((resolve, reject)=>{
+        console.log(SearchString);
+        userCollection.find({
+            RoleID:0,
             $text:{
                 $search:  SearchString
             }
@@ -115,12 +137,44 @@ insertUserSiswa = (query) => {
         });
     });
 };
+insertUserGuru = (query) => {
+    return new Promise((resolve, reject)=>{
+        let userQuery={
+            NoInduk:query.NoInduk,
+            NamaGuru:query.Nama.toUpperCase(),
+            JenisKelamin:query.JenisKelamin,
+            RoleID:0,
+            Password:bcyrpt.hashSync(query.Password, salt)
+        };
+        userCollection.insertOne(userQuery,function (err,result) {
+           if(err)reject(err);
+           else resolve(result);
+        });
+    });
+};
 updateUserSiswa = (query) => {
     return new Promise((resolve,reject)=>{
         userCollection.updateOne({_id: ObjectId(query._idEdit)},{ $set:
             {
                 NamaSiswa:query.NamaEdit,
                 NISLokal:query.NoIndukEdit,
+                JenisKelamin:query.JenisKelaminEdit
+            }
+        }, function(err, result) {
+            if(err){
+                reject(err);
+            }else {
+                resolve(result);
+            }
+        });
+    });
+};
+updateUserGuru = (query) => {
+    return new Promise((resolve,reject)=>{
+        userCollection.updateOne({_id: ObjectId(query._idEdit)},{ $set:
+            {
+                NamaGuru:query.NamaEdit,
+                NoInduk:query.NoIndukEdit,
                 JenisKelamin:query.JenisKelaminEdit
             }
         }, function(err, result) {
@@ -161,5 +215,9 @@ module.exports = {
     checkRFID:checkRFID,
     updateRfidSiswa:updateRfidSiswa,
     deleteUserFromDocument:deleteUserFromDocument,
-    updateUserSiswa:updateUserSiswa
+    updateUserSiswa:updateUserSiswa,
+    insertUserGuru:insertUserGuru,
+    getListGuru:getListGuru,
+    updateUserGuru:updateUserGuru,
+    findGuruByString:findGuruByString
 };

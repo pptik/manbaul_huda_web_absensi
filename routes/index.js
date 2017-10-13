@@ -90,4 +90,16 @@ router.get('/authenticated-data-siswa', function(req, res, next) {
         res.render('index', { title: 'Absensi',URL_Service:config.URL_SERVICE });
     }
 });
+router.get('/authenticated-data-guru', function(req, res, next) {
+    let Session=req.session;
+    if(Session._id!==undefined){
+        switch (parseInt(Session.RoleID)){
+            case 0:
+                res.render('authenticated/data-guru', { title: 'Absensi',URL_Service:config.URL_SERVICE});
+                break
+        }
+    }else{
+        res.render('index', { title: 'Absensi',URL_Service:config.URL_SERVICE });
+    }
+});
 module.exports = router;
