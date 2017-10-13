@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90f6f1d9-11ab-4a6f-8344-7dffeb6bd322" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/authenticated/data-guru.ejs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/user_model.js" afterPath="$PROJECT_DIR$/model/user_model.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/users.js" afterPath="$PROJECT_DIR$/routes/users.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/authenticated/absensiview.ejs" afterPath="$PROJECT_DIR$/views/authenticated/absensiview.ejs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/model/absensi_model.js" afterPath="$PROJECT_DIR$/model/absensi_model.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/absensi.js" afterPath="$PROJECT_DIR$/routes/absensi.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/authenticated/alat-setting.ejs" afterPath="$PROJECT_DIR$/views/authenticated/alat-setting.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/authenticated/dashboard-admin.ejs" afterPath="$PROJECT_DIR$/views/authenticated/dashboard-admin.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/authenticated/data-siswa.ejs" afterPath="$PROJECT_DIR$/views/authenticated/data-siswa.ejs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/authenticated/realtime-absensi.ejs" afterPath="$PROJECT_DIR$/views/authenticated/realtime-absensi.ejs" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -30,6 +24,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="509">
               <caret line="66" column="25" lean-forward="true" selection-start-line="66" selection-start-column="25" selection-end-line="66" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="connection.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rmq/connection.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="284">
+              <caret line="35" column="24" lean-forward="true" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -72,16 +76,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data-siswa.ejs" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/authenticated/data-siswa.ejs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
-              <caret line="165" column="10" lean-forward="false" selection-start-line="165" selection-start-column="10" selection-end-line="165" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="realtime-absensi.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/authenticated/realtime-absensi.ejs">
           <provider selected="true" editor-type-id="text-editor">
@@ -92,11 +86,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="absensi.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="absensi.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/absensi.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="250">
-              <caret line="10" column="49" lean-forward="false" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+            <state relative-caret-position="25">
+              <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -105,8 +99,8 @@
       <file leaf-file-name="dashboard-admin.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/authenticated/dashboard-admin.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="466">
-              <caret line="53" column="10" lean-forward="false" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
+            <state relative-caret-position="170">
+              <caret line="204" column="18" lean-forward="false" selection-start-line="204" selection-start-column="14" selection-end-line="204" selection-end-column="18" />
               <folding />
             </state>
           </provider>
@@ -115,8 +109,8 @@
       <file leaf-file-name="absensi_model.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/absensi_model.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state relative-caret-position="170">
+              <caret line="218" column="0" lean-forward="false" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -125,18 +119,18 @@
       <file leaf-file-name="alat-setting.ejs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/authenticated/alat-setting.ejs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="147" column="31" lean-forward="true" selection-start-line="147" selection-start-column="31" selection-end-line="147" selection-end-column="31" />
+            <state relative-caret-position="25">
+              <caret line="199" column="17" lean-forward="true" selection-start-line="199" selection-start-column="17" selection-end-line="199" selection-end-column="17" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user_model.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="user_model.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model/user_model.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="337">
-              <caret line="133" column="10" lean-forward="true" selection-start-line="133" selection-start-column="10" selection-end-line="133" selection-end-column="10" />
+            <state relative-caret-position="25">
+              <caret line="61" column="42" lean-forward="true" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -146,17 +140,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>var</find>
-      <find>searc</find>
-      <find>nama</find>
-      <find>views</find>
-      <find>user</find>
-      <find>view</find>
-      <find>sessio</find>
-      <find>configs</find>
-      <find>mongos</find>
-      <find>messages</find>
-      <find>message</find>
       <find>sess</find>
       <find>flas</find>
       <find>flash</find>
@@ -168,14 +151,25 @@
       <find>today</find>
       <find>$gte</find>
       <find>gu</find>
-      <find>insert</find>
       <find>edit</find>
       <find>delete</find>
       <find>nislo</find>
       <find>search</find>
       <find>consol</find>
-      <find>guru</find>
       <find>rfid</find>
+      <find>guru</find>
+      <find>findone</find>
+      <find>update</find>
+      <find>post</find>
+      <find>get</find>
+      <find>conso</find>
+      <find>index</find>
+      <find>inde</find>
+      <find>change</find>
+      <find>status</find>
+      <find>quer</find>
+      <find>insert</find>
+      <find>console</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -192,8 +186,6 @@
         <option value="$PROJECT_DIR$/views/index.ejs" />
         <option value="$PROJECT_DIR$/setup/configs.json" />
         <option value="$PROJECT_DIR$/app.js" />
-        <option value="$PROJECT_DIR$/model/absensi_model.js" />
-        <option value="$PROJECT_DIR$/routes/absensi.js" />
         <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/views/authenticated/absensiview.ejs" />
         <option value="$PROJECT_DIR$/views/authenticated/dashboard-admin.ejs" />
@@ -203,6 +195,8 @@
         <option value="$PROJECT_DIR$/model/user_model.js" />
         <option value="$PROJECT_DIR$/routes/users.js" />
         <option value="$PROJECT_DIR$/views/authenticated/alat-setting.ejs" />
+        <option value="$PROJECT_DIR$/model/absensi_model.js" />
+        <option value="$PROJECT_DIR$/routes/absensi.js" />
       </list>
     </option>
   </component>
@@ -368,7 +362,7 @@
       <workItem from="1507631076224" duration="7838000" />
       <workItem from="1507686519897" duration="587000" />
       <workItem from="1507694755868" duration="3048000" />
-      <workItem from="1507875810075" duration="6508000" />
+      <workItem from="1507875810075" duration="12750000" />
     </task>
     <task id="LOCAL-00001" summary="opening ACT">
       <created>1504065885504</created>
@@ -426,11 +420,18 @@
       <option name="project" value="LOCAL" />
       <updated>1507695256093</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="data guru">
+      <created>1507883051344</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1507883051344</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57148000" />
+    <option name="totallyTimeSpent" value="63390000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -465,7 +466,8 @@
     <MESSAGE value="absensi" />
     <MESSAGE value="set error if user not found" />
     <MESSAGE value="nama ruangan dan kode ruangan" />
-    <option name="LAST_COMMIT_MESSAGE" value="nama ruangan dan kode ruangan" />
+    <MESSAGE value="data guru" />
+    <option name="LAST_COMMIT_MESSAGE" value="data guru" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -728,14 +730,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rmq/connection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
@@ -748,14 +742,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="284">
           <caret line="39" column="10" lean-forward="false" selection-start-line="39" selection-start-column="10" selection-end-line="42" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/authenticated/dashboard-admin.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="466">
-          <caret line="53" column="10" lean-forward="false" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
           <folding />
         </state>
       </provider>
@@ -809,30 +795,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/absensi.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="250">
-          <caret line="10" column="49" lean-forward="false" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/model/absensi_model.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/authenticated/alat-setting.ejs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="147" column="31" lean-forward="true" selection-start-line="147" selection-start-column="31" selection-end-line="147" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/users.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="262">
@@ -843,8 +805,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model/user_model.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="133" column="10" lean-forward="true" selection-start-line="133" selection-start-column="10" selection-end-line="133" selection-end-column="10" />
+        <state relative-caret-position="25">
+          <caret line="61" column="42" lean-forward="true" selection-start-line="61" selection-start-column="42" selection-end-line="61" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/authenticated/dashboard-admin.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="204" column="18" lean-forward="false" selection-start-line="204" selection-start-column="14" selection-end-line="204" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/authenticated/alat-setting.ejs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="199" column="17" lean-forward="true" selection-start-line="199" selection-start-column="17" selection-end-line="199" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rmq/connection.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="35" column="24" lean-forward="true" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/model/absensi_model.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="218" column="0" lean-forward="false" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/absensi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="5" column="5" lean-forward="true" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="5" />
           <folding />
         </state>
       </provider>

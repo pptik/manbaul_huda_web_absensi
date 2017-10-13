@@ -7,7 +7,13 @@ let ObjectId = require('mongodb').ObjectID;
 let id = require('moment/locale/id');
 insertToListMac = (MacID) => {
     return new Promise((resolve, reject)=>{
-        macCollection.insertOne({mac:MacID}, (err, result) => {
+        macCollection.insertOne({
+            mac:MacID,
+            kelasassigned:false,
+            koderuangan:"",
+            namaruangan:"",
+            status:0
+        }, (err, result) => {
             if(err) reject(err);
             else resolve(result);
         });
@@ -115,6 +121,36 @@ updateDataMacList=(query)=>{
       });
   });
 };
+updateStatusDevice=(_id,Status)=>{
+  return new Promise((resolve,reject)=>{
+      macCollection.updateOne({_id: ObjectId(_id)},{ $set:
+          {
+              status:parseInt(Status)
+          }
+      }, function(err, result) {
+          if(err){
+              reject(err);
+          }else {
+              resolve(result);
+          }
+      });
+  });
+};
+updateStatusDeviceByMac=(mac,Status)=>{
+  return new Promise((resolve,reject)=>{
+      macCollection.updateOne({mac: mac},{ $set:
+          {
+              status:parseInt(Status)
+          }
+      }, function(err, result) {
+          if(err){
+              reject(err);
+          }else {
+              resolve(result);
+          }
+      });
+  });
+};
 deleteMacFromMacListDocument=(MacID)=>{
   return new Promise((resolve,reject)=>{
       macCollection.removeOne({_id:ObjectId(MacID)},function (err,result) {
@@ -152,6 +188,22 @@ promiseGetDetailMacID=(MacID)=>{
         macCollection.findOne({mac:MacID},function (err,result) {
             if(err)reject(err);
             else resolve(result);
+        });
+    }) ;
+};
+promiseCheckMacStatus=(MacID)=>{
+    return new Promise((resolve,reject)=>{
+        macCollection.findOne({mac:MacID},function (err,result) {
+            if(err)reject(err);
+            else {
+                if(result){
+                    if(result.status===0){
+                        resolve(true)
+                    }else {
+                        resolve(false)
+                    }
+                }else resolve(false)
+            }
         });
     }) ;
 };
@@ -254,5 +306,8 @@ module.exports = {
     deleteMacFromMacListDocument:deleteMacFromMacListDocument,
     promiseGetDetailUser:promiseGetDetailUser,
     promiseGetDetailMacID:promiseGetDetailMacID,
-    findAbsenByMacRfidDate:findAbsenByMacRfidDate
+    findAbsenByMacRfidDate:findAbsenByMacRfidDate,
+    updateStatusDevice:updateStatusDevice,
+    promiseCheckMacStatus:promiseCheckMacStatus,
+    updateStatusDeviceByMac:updateStatusDeviceByMac
 };

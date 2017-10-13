@@ -116,7 +116,6 @@
         function loadDataMac() {
             $.get('/absensi/list/mac', function(data) {
                 let listmac=data.listmac;
-                console.log(listmac);
                 LoadTabelJadwal(listmac);
             });
         }
@@ -168,16 +167,44 @@
                         triggerBtn[j].type = "button";
                         triggerBtn[j].id = "triggerButton"+j;
                         triggerBtn[j].name = "triggerButton"+j;
-                        triggerBtn[j].className = "compact ui button";
+                        triggerBtn[j].className = "compact ui green button";
                         triggerBtn[j].nama=Data[j].Nama;
                         triggerBtn[j]._id=Data[j]._id;
                         triggerBtn[j].data=Data[j];
-                        triggerBtn[j].value = "on";
+                        triggerBtn[j].index=j;
+                        triggerBtn[j].value = "ON";
                         triggerBtn[j].status=Data[j].status;
                         td.appendChild(triggerBtn[j]);
-
+                        $("#triggerButton"+j+"").click(function () {
+                            let _id=$(this).prop("_id");
+                            let index=$(this).prop("index");
+                            let status=$(this).prop("status");
+                            $("#triggerButton"+index+"").prop('className', 'ui loading button');
+                            $("#triggerButton"+index+"").prop('disabled', true);
+                            changeMacStatus(_id,parseInt(status),parseInt(index));
+                        });
                     }else {
-
+                        tr.appendChild(td = document.createElement("td"));
+                        triggerBtn[j] = document.createElement('input');
+                        triggerBtn[j].type = "button";
+                        triggerBtn[j].id = "triggerButton"+j;
+                        triggerBtn[j].name = "triggerButton"+j;
+                        triggerBtn[j].className = "compact ui red button";
+                        triggerBtn[j].nama=Data[j].Nama;
+                        triggerBtn[j]._id=Data[j]._id;
+                        triggerBtn[j].data=Data[j];
+                        triggerBtn[j].value = "OFF";
+                        triggerBtn[j].index=j;
+                        triggerBtn[j].status=Data[j].status;
+                        td.appendChild(triggerBtn[j]);
+                        $("#triggerButton"+j+"").click(function () {
+                            let _id=$(this).prop("_id");
+                            let index=$(this).prop("index");
+                            let status=$(this).prop("status");
+                            $("#triggerButton"+index+"").prop('className', 'ui loading button');
+                            $("#triggerButton"+index+"").prop('disabled', true);
+                            changeMacStatus(_id,parseInt(status),parseInt(index));
+                        });
                     }
                     tr.appendChild(td = document.createElement("td"));
                     btn[j] = document.createElement('input');
@@ -211,6 +238,33 @@
                     count++;
                 }
             }
+        }
+        function changeMacStatus(_id,status,index) {
+            let statuschange=0;
+            if(parseInt(status)===1){
+                statuschange=0;
+            }else {
+                statuschange=1;
+            }
+            $.post('absensi/change/status/by/id',{_id:_id,Status:statuschange}, function(data) {
+                console.log(status);
+                if(data.success===true){
+                    if(parseInt(status)===0){
+                        $("#triggerButton"+index+"").prop('disabled', false);
+                        $("#triggerButton"+index+"").prop('value', 'OFF');
+                        $("#triggerButton"+index+"").prop('text', 'OFF');
+                        $("#triggerButton"+index+"").prop('className', 'compact ui red button');
+                        $("#triggerButton"+index+"").prop('status', 1);
+
+                    }else {
+                        $("#triggerButton"+index+"").prop('disabled', false);
+                        $("#triggerButton"+index+"").prop('value', 'ON');
+                        $("#triggerButton"+index+"").prop('text', 'ON');
+                        $("#triggerButton"+index+"").prop('className', 'compact ui green button');
+                        $("#triggerButton"+index+"").prop('status', 0);
+                    }
+                }
+            });
         }
         function deleteFormOpen(data) {
             $(".deleteDataFormBody #_id").val(data._id);

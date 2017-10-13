@@ -45,17 +45,30 @@ router.post('/insert', async(req, res) => {
             query.date=new Date(moment().format('YYYY-MM-DD HH:mm:ss'));
             query.tanggal=today.format("dddd, DD/MM/YYYY",'id');
             query.waktu=today.format("HH:mm:ss");
+            let dataUser=await absensiModel.promiseGetDetailUser(query.rf_id);
             if(MacInCollection.length>0){
-                await absensiModel.insertAbsensi(query);
-                query.macDetail=await absensiModel.promiseGetDetailMacID(query.mac);
-                query.detailUser=await absensiModel.promiseGetDetailUser(query.rf_id);
-                req.app.io.emit('absensi', query);
-                    res.status(200).send({success: true, message: "Data Berhasil Dikirim"});
+               if(dataUser){
+                   if(dataUser.RoleID===0){
+                       if(MacInCollection[0].status===0){
+                           await absensiModel.updateStatusDeviceByMac(query.mac,1);
+                       }else {
+                           await absensiModel.updateStatusDeviceByMac(query.mac,0);
+                       }
+                   }else {
+                       if(MacInCollection[0].status===0){
+                           await absensiModel.insertAbsensi(query);
+                           query.macDetail=await absensiModel.promiseGetDetailMacID(query.mac);
+                           query.detailUser=dataUser;
+                           req.app.io.emit('absensi', query);
+                           res.status(200).send({success: true, message: "Data Berhasil Dikirim"});
+                       }
+                   }
+               }
             }else {
                 await absensiModel.insertToListMac(query.mac);
                 await absensiModel.insertAbsensi(query);
                 query.macDetail=await absensiModel.promiseGetDetailMacID(query.mac);
-                query.detailUser=await absensiModel.promiseGetDetailUser(query.rf_id);
+                query.detailUser=dataUser;
                 req.app.io.emit('absensi', query);
                 res.status(200).send({success: true, message: "Data Berhasil Dikirim"});
             }
@@ -83,7 +96,22 @@ router.post('/update-mac', async(req, res) => {
             res.redirect('/authenticated-alat-setting');
         }
     }
-
+});
+router.post('/change/status/by/id', async(req, res) => {
+    let query=req.body;
+    console.log(query);
+    if (query.Status===undefined||query._id===undefined){
+        res.status(200).send({success: false, message: "Lengkapi Parameter"});
+    }
+    else {
+        try{
+            await absensiModel.updateStatusDevice(query._id,query.Status);
+            res.status(200).send({success: true, message: "Data Berhasil Di Update"});
+        }catch (err){
+            console.log(err);
+            res.status(200).send({success: false, message: "Data Gagal Di Update"});
+        }
+    }
 });
 router.post('/delete-mac', async(req, res) => {
     let query=req.body;
