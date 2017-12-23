@@ -205,6 +205,34 @@ deleteUserFromDocument=(UseriD)=>{
         });
     }) ;
 };
+getListRfidSiswa = () => {
+    return new Promise((resolve, reject)=>{
+        userCollection.find({RoleID:2},{rf_id:1}).toArray( (err, results) => {
+            if(err)reject(err);
+            else {
+                iterateListRfidSiswa(results,function (err,iteratedResults) {
+                   if(err)reject(err);
+                   else resolve(iteratedResults);
+                });
+            }
+        });
+    });
+};
+function iterateListRfidSiswa(items,callback) {
+        let arrAbsen=[];
+        let maxCount = (items.length > 0) ? items.length-1 : 0;
+        let countProccess=0;
+        items.forEach(function (index) {
+            if(index.rf_id!==undefined){
+                let rf_id=index.rf_id[0];
+                arrAbsen.push(rf_id);
+            }
+            if (countProccess === maxCount) {
+               callback(null,arrAbsen);
+            }
+            countProccess++;
+        });
+}
 module.exports = {
     updatePasswordAdmin:updatePasswordAdmin,
     checkLoginUser:checkLoginUser,
@@ -219,5 +247,6 @@ module.exports = {
     insertUserGuru:insertUserGuru,
     getListGuru:getListGuru,
     updateUserGuru:updateUserGuru,
-    findGuruByString:findGuruByString
+    findGuruByString:findGuruByString,
+    getListRfidSiswa:getListRfidSiswa
 };

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Absensi</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <link href="/dist/semantic.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="/assets/images/absensi.png"/>
+  <style>
+    container-body {
+      background: url('https://www.planwallpaper.com/static/images/i-should-buy-a-boat.jpg') fixed;
+      background-size: cover;
+      padding: 0;
+      margin: 0;
+    }
+
+    .form-holder {
+      background: rgba(255,255,255,0.2);
+      margin-top: 10%;
+      border-radius: 3px;
+    }
+
+
+
+    .remember-me {
+      text-align: left;
+    }
+    .ui.checkbox label {
+      color: #ddd;
+    }
+
+  </style>
+</head>
+<body style="height: 100%">
+<script type="text/javascript" src="/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/dist/semantic.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
+
+<meta charset="utf-8">
+<meta name="_token" content="{{ csrf_token() }}">
+<div class="ui container" style="width: 100% ;height: 100%;padding-left:5%;padding-right: 5% ">
+  <div class="ui secondary pointing menu" style="padding: 5px" >
+
+    <div class="left menu">
+      <a class="active item">
+        Absensi
+      </a>
+      <a class="item" href="/authenticated-data-siswa">
+        Data Siswa
+      </a>
+      <a class="item" href="/authenticated-data-guru">
+        Data Guru
+      </a>
+      <a class=" item" href="/authenticated-alat-setting">
+        Data Alat
+      </a>
+    </div>
+    <div class="right menu">
+      <a class="item" href="users/logout/action">Logout</a>
+    </div>
+  </div>
+  <div class="ui secondary pointing menu" style="padding: 5px" >
+    <div class="left menu">
+      <a class="active item" >
+        Manual
+      </a>
+      <a class="item" href="/authenticated-realtime">
+        Realtime
+      </a>
+    </div>
+  </div>
+  <div class="ui container">
+    <div id="containermac" name="containermac" class="ui form">
+      <label>Device</label>
+    </div>
+    <br>
+  </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+
+    });
+
+
+</script>
+</body>
+</html>

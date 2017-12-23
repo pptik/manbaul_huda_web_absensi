@@ -2,6 +2,7 @@ const rmq_config = require('../setup/rmq.json');
 const configs=require('../setup/configs.json');
 let rmq = require('amqplib');
 let request = require('request');
+let absensiModel = require('../model/absensi_model');
 
 
 /** connect to rabbit**/
@@ -29,17 +30,24 @@ consume = async (connection) => {
             if(msg.fields.routingKey === rmq_config.route_update_absensi){
                try {
                    let query = JSON.parse(msg.content.toString());
-                   console.log("-------------------------------------------------");
-                   console.log('Insert Absensi');
-                   console.log("-------------------------------------------------");
-                   request({
-                       url: configs.URL_SERVICE+'absensi/insert',
-                       method: "POST",
-                       json: true,
-                       body: query
-                   }, function (error, response, body){
-                       console.log(body);
-                   });
+                   if(query.tipe!==undefined&&query.tipe===0){
+                       console.log("data pengujian berhasil diambil");
+                       console.log("memproses data pengujian "+query.tag+" antrian ke "+ query.antrian+" Start Time : " +query.starttime);
+                       masukanDataPengujian(query)
+                   }else {
+                       console.log("-------------------------------------------------");
+                       console.log('Insert Absensi');
+                       console.log("-------------------------------------------------");
+                       request({
+                           url: configs.URL_SERVICE+'absensi/insert',
+                           method: "POST",
+                           json: true,
+                           body: query
+                       }, function (error, response, body){
+                           console.log(body);
+                       });
+                   }
+
                }catch (err){
                    console.log(err);
                }
@@ -51,6 +59,9 @@ consume = async (connection) => {
     }
 };
 
+function masukanDataPengujian(query) {
+    absensiModel.insertPengujian(query.tag,query.antrian,query.starttime);
+}
 
 module.exports = {
     connect:connect

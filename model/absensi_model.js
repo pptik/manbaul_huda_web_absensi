@@ -3,8 +3,61 @@ const moment = require('moment');
 let database = app.db;
 let macCollection = database.collection('maclist');
 let usersCollection = database.collection('users');
+let pengujianSummaryCollection = database.collection('pengujian_summary');
+let pengujianCollection = database.collection('pengujian');
 let ObjectId = require('mongodb').ObjectID;
 let id = require('moment/locale/id');
+
+getListPengujian = () => {
+    return new Promise((resolve, reject)=>{
+        pengujianSummaryCollection.find({}).toArray( (err, results) => {
+            if(err)reject(err);
+            else resolve(results);
+        });
+    });
+};
+updateQueueInsertTime=(tag,time)=>{
+    return new Promise((resolve,reject)=>{
+        pengujianSummaryCollection.updateOne({tag: tag},{ $set:
+            {
+                insert_queue_time:time
+            }
+        }, function(err, result) {
+            if(err){
+                reject(err);
+            }else {
+                resolve(result);
+            }
+        });
+    });
+};
+
+insertPengujianSummary = (tag,jumlah) => {
+    return new Promise((resolve, reject)=>{
+        pengujianSummaryCollection.insertOne({
+            tag:tag,
+            jumlah:jumlah,
+            mulai_pengujian:new Date()
+        }, (err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+        });
+    });
+};
+insertPengujian = (tag,antrian,start) => {
+    return new Promise((resolve, reject)=>{
+        let end = new Date().getTime();
+        let timeDifferenceinSecond=(end-start)/1000;
+        pengujianCollection.insertOne({
+            tag:tag,
+            antrian:antrian,
+            waktuproses:timeDifferenceinSecond
+        }, (err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+        });
+    });
+};
 insertToListMac = (MacID) => {
     return new Promise((resolve, reject)=>{
         macCollection.insertOne({
@@ -25,6 +78,12 @@ insertAbsensi = (query) => {
             if(err) reject(err);
             else resolve(result);
         });
+    });
+};
+insertAbsensi2 = (query,callback) => {
+    database.collection(query.mac).insertOne(query, (err, result) => {
+        if(err) callback(err,null);
+        else callback(null,result);
     });
 };
 getListAllMac = () => {
@@ -309,5 +368,10 @@ module.exports = {
     findAbsenByMacRfidDate:findAbsenByMacRfidDate,
     updateStatusDevice:updateStatusDevice,
     promiseCheckMacStatus:promiseCheckMacStatus,
-    updateStatusDeviceByMac:updateStatusDeviceByMac
+    updateStatusDeviceByMac:updateStatusDeviceByMac,
+    insertAbsensi2:insertAbsensi2,
+    insertPengujianSummary:insertPengujianSummary,
+    updateQueueInsertTime:updateQueueInsertTime,
+    insertPengujian:insertPengujian,
+    getListPengujian:getListPengujian
 };

@@ -254,6 +254,8 @@
             }else{
                 var starttime=new Date(tanggal+" "+jamawal).toISOString();
                 var endtime=new Date(tanggal+" "+jamakhir).toISOString();
+                console.log(jamawal);
+                console.log(jamakhir);
 
                 $.post('/absensi/list/absen/by/mac/starttime/endtime',{ MacID: deviceid, StartTime: starttime ,EndTime: endtime},
                     function(data) {
@@ -262,10 +264,6 @@
                     }
                 );
             }
-
-
-
-
         }
 
     });

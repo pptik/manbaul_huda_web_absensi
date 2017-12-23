@@ -109,14 +109,16 @@ database.connect(function (err, db) {
         module.exports = app;
         const rmqConnection = require('./rmq/connection');
         rmqConnection.connect();
-        var index = require('./routes/index');
-        var users = require('./routes/users');
-        var absensi = require('./routes/absensi');
+        let index = require('./routes/index');
+        let users = require('./routes/users');
+        let absensi = require('./routes/absensi');
+        let analisaAbsensi = require('./routes/analisaabsensi');
 
 
         app.use('/', index);
         app.use('/users', users);
         app.use('/absensi', absensi);
+        app.use('/analisaabsensi', analisaAbsensi);
 
 
 

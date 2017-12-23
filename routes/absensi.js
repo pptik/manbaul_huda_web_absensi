@@ -15,6 +15,15 @@ router.get('/list/mac', async(req, res) => {
         res.status(200).send({success: false, message: "Data Gagal Diambil"});
     }
 });
+router.get('/list/pengujian', async(req, res) => {
+    try{
+        let listPengujian=await absensiModel.getListPengujian();
+        res.status(200).send({success: true, message: "Data Berhasil Diambil",listpengujian:listPengujian});
+    }catch (err){
+        console.log(err);
+        res.status(200).send({success: false, message: "Data Gagal Diambil"});
+    }
+});
 router.post('/list/absen/by/mac', async(req, res) => {
     try{
         let listabsen=await absensiModel.getListAbsenByMacID(req.body.MacID);
@@ -75,6 +84,53 @@ router.post('/insert', async(req, res) => {
         }catch (err){
             console.log(err);
             res.status(200).send({success: false, message: "Data Gagal Diambil"});
+        }
+    }
+});
+router.post('/pengujian', async(req, res) => {
+    let query=req.body;
+    if (query.jumlah===undefined||query.tag===undefined)res.status(200).send({success: false, message: "Parameter tidak Lengkap"});
+    else {
+        try{
+            let start = new Date().getTime();
+            let Jumlah=parseInt(query.jumlah);
+            let tag=query.tag;
+            let amqp = require('amqplib/callback_api');
+            let broker_uri = "amqp://achmadridho:0711811526@167.205.7.226:5672/%2fabsensimanbaulhuda?heartbeat=10";
+
+            let exchangeName = "amq.topic";
+            let countProccess=1;
+            await absensiModel.insertPengujianSummary(tag,Jumlah);
+            amqp.connect(broker_uri, function(err, conn) {
+                conn.createChannel(function(err, ch) {
+                    ch.assertQueue('', {exclusive: true}, function(err, q) {
+                        console.log("success creating connection to RabbitMq");
+                        req.app.io.emit('status', "success creating connection to RabbitMq");
+                        res.status(200).send({success: true, message: "Data Berhasil Dikirim"});
+                        let msg = {tipe:0,tag:tag,starttime:new Date().getTime()};
+                        for(let i=1;i<=Jumlah;i++){
+                            msg.antrian=i;
+                            console.log(msg.antrian);
+                            ch.publish(exchangeName, "absensi.service", new Buffer(JSON.stringify(msg)),
+                                {});
+                            console.log(" [x] Sent ");
+                            if(countProccess===Jumlah){
+                                let end = new Date().getTime();
+                                let timeDifferenceinSecond=(end-start)/1000
+                                console.log(timeDifferenceinSecond);
+                                absensiModel.updateQueueInsertTime(tag,timeDifferenceinSecond);
+
+                            }
+                            countProccess++;
+                        }
+                        req.app.io.emit('status', "success sending all data to queue");
+                    });
+                });
+            });
+
+        }catch (err){
+            console.log(err);
+            res.status(200).send({success: false, message: "Pengujian Gagal"});
         }
     }
 });

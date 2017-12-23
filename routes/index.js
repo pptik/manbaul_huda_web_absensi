@@ -17,6 +17,15 @@ router.get('/', async(req, res) => {
         res.render('index', { title: 'Absensi' });
     }
 });
+router.get('/vdata', async(req, res) => {
+    res.render('authenticated/visualisasidata', { title: 'Absensi' });
+});
+router.get('/pengujian', async(req, res) => {
+    res.render('authenticated/pengujian', { title: 'Absensi' });
+});
+router.get('/vdataperhari', async(req, res) => {
+    res.render('authenticated/visualisasidataperhari', { title: 'Absensi' });
+});
 
 router.get('/login', function(req, res, next) {
     let Session=req.session;
