@@ -36,17 +36,103 @@
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
-
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <meta charset="utf-8">
 <meta name="_token" content="{{ csrf_token() }}">
 <div class="ui container" style="width: 100% ;height: 100%;padding-left:5%;padding-right: 5% ">
 
 
   <div class="ui container">
+    <div class="ui secondary pointing menu" style="padding: 5px" >
+      <div class="right menu">
+        <a class="item" href="/pengujian">Mulai Pengujian</a>
+      </div>
+    </div>
     <div id="containerpengujian" name="containerpengujian" class="ui form">
       <label>Daftar Pengujian</label>
     </div>
     <br>
+    <div id="showerror" class="ui ignored negative message" style="display:none">
+    </div>
+    <div id="loading" class="ui" style="height: 50%;display: none">
+      <div class="ui active dimmer">
+        <div class="ui indeterminate text loader">Loading</div>
+      </div>
+    </div>
+    <div>
+      <table id="tabelPengujian" class="ui celled striped table" style="display: none;">
+        <thead>
+        <tr>
+          <th class="center aligned" colspan="3">
+            <h1>Data Pengujian</h1>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="left aligned collapsing">ID Pengujian</td>
+          <td><h3 id="tagPengujian"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Jumlah Data</td>
+          <td><h3 id="jumlahData"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Tanggal Pengujian</td>
+          <td><h3 id="tanggalPengujian"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Waktu Masuk Antrian</td>
+          <td><h3 id="queueTime"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Rata-rata waktu proses</td>
+          <td><h3 id="rata2"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Maximum waktu proses</td>
+          <td><h3 id="maximum"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Minimum waktu proses</td>
+          <td><h3 id="minimum"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Rata-rata waktu dalam antrian</td>
+          <td><h3 id="rata2dalamantrian"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Maximum waktu dalam antrian</td>
+          <td><h3 id="maximumdalamantrian"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Minimum waktu proses dalam antrian</td>
+          <td><h3 id="minimumdalamantrian"> </h3></td>
+        </tr>
+        <tr>
+        <tr>
+          <td class="left aligned collapsing">Rata-rata waktu menyimpan ke database</td>
+          <td><h3 id="rata2simpandb"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Maximum waktu menyimpan ke database</td>
+          <td><h3 id="maximumsimpandb"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Minimum waktu menyimpan ke database</td>
+          <td><h3 id="minimumsimpandb"> </h3></td>
+        </tr>
+        <tr>
+          <td class="left aligned collapsing">Jumlah Data Tersimpan</td>
+          <td><h3 id="dataTersimpan"> </h3></td>
+        </tr>
+        </tbody>
+      </table>
+      <div id="chartwaktuproses" style="height: 370px; width: 100%;display: none"></div>
+      <div id="chartdalamantrian" style="height: 370px; width: 100%;display: none"></div>
+      <div id="chartsimpandb" style="height: 370px; width: 100%;display: none"></div>
+    </div>
   </div>
 
 
@@ -55,6 +141,10 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        let tagPengujian;
+        let chartwaktuproses=document.getElementById("chartwaktuproses");
+        let chartdalamantrian=document.getElementById("chartdalamantrian");
+        let chartsimpandb=document.getElementById("chartsimpandb");
         function loaddropdownpengujian() {
             let div = document.querySelector("#containerpengujian"),
                 frag = document.createDocumentFragment(),
@@ -71,11 +161,121 @@
                 }
                 frag.appendChild(select);
                 div.appendChild(frag);
-                //div.onchange=onclick_search;
+                div.onchange=onclick_search;
+                onclick_search();
             });
         }
         loaddropdownpengujian();
+        function onclick_search() {
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("tabelPengujian").style.display = "none";
+            document.getElementById("showerror").style.display = "none";
+            let e = document.getElementById("selectcontainer");
+            tagPengujian = e.options[e.selectedIndex].value;
+            $.post('/absensi/data/pengujian',{ tag: tagPengujian},
+                function(data) {
+                    document.getElementById("loading").style.display = "none";
+                    if(data){
+                        loadDataPengujian(data.info,data.summary,data.detail.length,data.summary2,data.summary3);
+                        loadGrafik(data.detail);
+                        loadGrafik2(data.detaildalamantrian);
+                        loadGrafik3(data.detailsimpandb);
+                    }else {
+                        document.getElementById("showerror").style.display = "block";
+                        document.getElementById("showerror").innerHTML = "Data Tidak Ditemukan";
+                    }
+                }
+            );
+        }
+        function loadDataPengujian(info,summary,datatersimpan,summary2,summary3) {
+            document.getElementById("tabelPengujian").style.display = "inline-table";
+            document.getElementById("tagPengujian").innerHTML = info.tag;
+            document.getElementById("jumlahData").innerHTML = info.jumlah;
+            document.getElementById("tanggalPengujian").innerHTML = info.tanggal +", "+info.waktu;
+            document.getElementById("queueTime").innerHTML = info.insert_queue_time+" Detik";
+            document.getElementById("rata2").innerHTML = summary.rata2+" Detik";
+            document.getElementById("maximum").innerHTML = summary.max+" Detik";
+            document.getElementById("minimum").innerHTML = summary.min+" Detik";
+            document.getElementById("rata2dalamantrian").innerHTML = summary2.rata2+" Detik";
+            document.getElementById("maximumdalamantrian").innerHTML = summary2.max+" Detik";
+            document.getElementById("minimumdalamantrian").innerHTML = summary2.min+" Detik";
+            document.getElementById("rata2simpandb").innerHTML = summary3.rata2+" Detik";
+            document.getElementById("maximumsimpandb").innerHTML = summary3.max+" Detik";
+            document.getElementById("minimumsimpandb").innerHTML = summary3.min+" Detik";
+            document.getElementById("dataTersimpan").innerHTML = datatersimpan;
+        }
+        function loadGrafik(detail) {
 
+            chartwaktuproses.style.display='block';
+            let chart = new CanvasJS.Chart("chartwaktuproses", {
+                animationEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "Waktu Proses"
+                },
+                axisX:{
+                    title: "Nomor Antrian",
+                    includeZero: false,
+                },
+                axisY:{
+                    title: "Waktu dalam Detik",
+                    includeZero: false,
+                },
+                data: [{
+                    type: "line",
+                    dataPoints: detail
+                }]
+            });
+            chart.render();
+        }
+        function loadGrafik2(detail) {
+
+            chartdalamantrian.style.display='block';
+            let chart2 = new CanvasJS.Chart("chartdalamantrian", {
+                animationEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "Waktu Dalam Antrian"
+                },
+                axisX:{
+                    title: "Nomor Antrian",
+                    includeZero: false,
+                },
+                axisY:{
+                    title: "Waktu dalam Detik",
+                    includeZero: false,
+                },
+                data: [{
+                    type: "line",
+                    dataPoints: detail
+                }]
+            });
+            chart2.render();
+        }
+        function loadGrafik3(detail) {
+
+            chartsimpandb.style.display='block';
+            let chart3 = new CanvasJS.Chart("chartsimpandb", {
+                animationEnabled: true,
+                theme: "light2",
+                title:{
+                    text: "Waktu Penyimpanan Data"
+                },
+                axisX:{
+                    title: "Nomor Antrian",
+                    includeZero: false,
+                },
+                axisY:{
+                    title: "Waktu dalam Detik",
+                    includeZero: false,
+                },
+                data: [{
+                    type: "line",
+                    dataPoints: detail
+                }]
+            });
+            chart3.render();
+        }
     });
 
 

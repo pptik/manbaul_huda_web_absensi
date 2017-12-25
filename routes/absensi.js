@@ -35,7 +35,7 @@ router.post('/list/absen/by/mac', async(req, res) => {
 });
 router.post('/list/absen/by/mac/starttime/endtime', async(req, res) => {
     let query=req.body;
-    console.log(query)
+    console.log(query);
     try{
         let listabsen=await absensiModel.getListAbsenByMacIDStartEndTime(query.MacID,query.StartTime,query.EndTime);
         res.status(200).send({success: true, message: "Data Berhasil Diambil",list:listabsen});
@@ -87,6 +87,28 @@ router.post('/insert', async(req, res) => {
         }
     }
 });
+router.post('/data/pengujian', async(req, res) => {
+    let query=req.body;
+    if (query.tag===undefined)res.status(200).send({success: false, message: "Parameter tidak Lengkap"});
+    else {
+        try{
+            let tag=query.tag;
+            let summaryPengujian=await absensiModel.ratarataWaktuPengujian(tag);
+            let summaryPengujian2=await absensiModel.ratarataWaktuDalamAntrian(tag);
+            let summaryPengujian3=await absensiModel.ratarataWaktuSimpanDatabase(tag);
+            let infoPengujian=await absensiModel.getSummaryPengujian(tag);
+            let detailPengujian=await absensiModel.getListDetailPengujian(tag);
+            let detailDalamAntrian=await absensiModel.getListDetailWaktuDalamAntrian(tag);
+            let detailSimpanDB=await absensiModel.getListDetailWaktuSimpanDB(tag);
+            res.status(200).send({success: true, message: "Data Berhasil Diambil",info:infoPengujian,
+                summary:summaryPengujian,summary2:summaryPengujian2,summary3:summaryPengujian3,
+                detail:detailPengujian,detaildalamantrian:detailDalamAntrian,detailsimpandb:detailSimpanDB});
+        }catch (err){
+            console.log(err);
+            res.status(200).send({success: false, message: "Pengujian Gagal"});
+        }
+    }
+});
 router.post('/pengujian', async(req, res) => {
     let query=req.body;
     if (query.jumlah===undefined||query.tag===undefined)res.status(200).send({success: false, message: "Parameter tidak Lengkap"});
@@ -96,7 +118,7 @@ router.post('/pengujian', async(req, res) => {
             let Jumlah=parseInt(query.jumlah);
             let tag=query.tag;
             let amqp = require('amqplib/callback_api');
-            let broker_uri = "amqp://achmadridho:0711811526@167.205.7.226:5672/%2fabsensimanbaulhuda?heartbeat=10";
+            let broker_uri = "amqp://pengujianabsensi:pengujianabsensi@167.205.7.226:5672/%2fpengujianabsensi?heartbeat=10";
 
             let exchangeName = "amq.topic";
             let countProccess=1;
@@ -107,20 +129,20 @@ router.post('/pengujian', async(req, res) => {
                         console.log("success creating connection to RabbitMq");
                         req.app.io.emit('status', "success creating connection to RabbitMq");
                         res.status(200).send({success: true, message: "Data Berhasil Dikirim"});
-                        let msg = {tipe:0,tag:tag,starttime:new Date().getTime()};
                         for(let i=1;i<=Jumlah;i++){
-                            msg.antrian=i;
+                            let msg = {tipe:0,tag:tag,starttime:new Date().getTime(),antrian:i};
                             console.log(msg.antrian);
                             ch.publish(exchangeName, "absensi.service", new Buffer(JSON.stringify(msg)),
                                 {});
                             console.log(" [x] Sent ");
                             if(countProccess===Jumlah){
                                 let end = new Date().getTime();
-                                let timeDifferenceinSecond=(end-start)/1000
+                                let timeDifferenceinSecond=(end-start)/1000;
                                 console.log(timeDifferenceinSecond);
                                 absensiModel.updateQueueInsertTime(tag,timeDifferenceinSecond);
 
                             }
+                            req.app.io.emit('status', "success sending data "+i+" to queue");
                             countProccess++;
                         }
                         req.app.io.emit('status', "success sending all data to queue");

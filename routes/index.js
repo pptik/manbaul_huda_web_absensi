@@ -20,8 +20,11 @@ router.get('/', async(req, res) => {
 router.get('/vdata', async(req, res) => {
     res.render('authenticated/visualisasidata', { title: 'Absensi' });
 });
-router.get('/pengujian', async(req, res) => {
+router.get('/datapengujian', async(req, res) => {
     res.render('authenticated/pengujian', { title: 'Absensi' });
+});
+router.get('/pengujian', async(req, res) => {
+    res.render('authenticated/mulaipengujian', { title: 'Absensi',URL_Service:config.URL_SERVICE });
 });
 router.get('/vdataperhari', async(req, res) => {
     res.render('authenticated/visualisasidataperhari', { title: 'Absensi' });

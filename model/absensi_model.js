@@ -8,11 +8,179 @@ let pengujianCollection = database.collection('pengujian');
 let ObjectId = require('mongodb').ObjectID;
 let id = require('moment/locale/id');
 
+ratarataWaktuSimpanDatabase = (tag) => {
+    return new Promise((resolve, reject)=>{
+        pengujianCollection.aggregate([
+
+            {
+                $match:{
+                    tag:tag
+                }
+            },
+            {
+                $group:{
+                    _id:"$tag",
+                    rata2:{$avg:"$waktusimpandb"},
+                    max:{$max:"$waktusimpandb"},
+                    min:{$min:"$waktusimpandb"}
+                }
+            }
+        ],function (err,result) {
+            if(err)reject(err);
+            else resolve(result[0]);
+        });
+    });
+};
+ratarataWaktuDalamAntrian = (tag) => {
+    return new Promise((resolve, reject)=>{
+        pengujianCollection.aggregate([
+
+            {
+                $match:{
+                    tag:tag
+                }
+            },
+            {
+                $group:{
+                    _id:"$tag",
+                    rata2:{$avg:"$waktudalamantrian"},
+                    max:{$max:"$waktudalamantrian"},
+                    min:{$min:"$waktudalamantrian"}
+                }
+            }
+        ],function (err,result) {
+            if(err)reject(err);
+            else resolve(result[0]);
+        });
+    });
+};
+ratarataWaktuPengujian = (tag) => {
+    return new Promise((resolve, reject)=>{
+        pengujianCollection.aggregate([
+
+            {
+                $match:{
+                    tag:tag
+                }
+            },
+            {
+                $group:{
+                    _id:"$tag",
+                    rata2:{$avg:"$waktuproses"},
+                    max:{$max:"$waktuproses"},
+                    min:{$min:"$waktuproses"}
+                }
+            }
+        ],function (err,result) {
+            if(err)reject(err);
+            else resolve(result[0]);
+        });
+    });
+};
+getSummaryPengujian = (tag) => {
+    return new Promise((resolve, reject)=>{
+        pengujianSummaryCollection.findOne({tag:tag}, (err, results) => {
+            if(err)reject(err);
+            else resolve(results);
+        });
+    });
+};
+getListDetailWaktuSimpanDB = (tag) => {
+    return new Promise((resolve, reject)=>{
+
+        pengujianCollection.aggregate([
+
+            {
+                $match:{
+                    tag:tag
+                }
+            },
+            {
+                $project:{
+                    x:"$antrian",
+                    y:"$waktusimpandb"
+                }
+            },
+            {$sort:{
+                x:1
+            }}
+        ],function (err,result) {
+            if(err)reject(err);
+            else resolve(result);
+        });
+    });
+};
+getListDetailWaktuDalamAntrian = (tag) => {
+    return new Promise((resolve, reject)=>{
+
+        pengujianCollection.aggregate([
+
+            {
+                $match:{
+                    tag:tag
+                }
+            },
+            {
+                $project:{
+                    x:"$antrian",
+                    y:"$waktudalamantrian"
+                }
+            },
+            {$sort:{
+                x:1
+            }}
+        ],function (err,result) {
+            if(err)reject(err);
+            else resolve(result);
+        });
+    });
+};
+getListDetailPengujian = (tag) => {
+    return new Promise((resolve, reject)=>{
+
+        pengujianCollection.aggregate([
+
+            {
+                $match:{
+                    tag:tag
+                }
+            },
+            {
+                $project:{
+                    x:"$antrian",
+                    y:"$waktuproses"
+                }
+            },
+            {$sort:{
+                x:1
+            }}
+        ],function (err,result) {
+            if(err)reject(err);
+            else resolve(result);
+        });
+    });
+};
 getListPengujian = () => {
     return new Promise((resolve, reject)=>{
         pengujianSummaryCollection.find({}).toArray( (err, results) => {
             if(err)reject(err);
             else resolve(results);
+        });
+    });
+};
+updateInsertToDbTime=(tag,antrian,dbsavetime,proccesstime)=>{
+    return new Promise((resolve,reject)=>{
+        pengujianCollection.updateOne({tag: tag,antrian:antrian},{ $set:
+            {
+                waktusimpandb:dbsavetime,
+                waktuproses:proccesstime
+            }
+        }, function(err, result) {
+            if(err){
+                reject(err);
+            }else {
+                resolve(result);
+            }
         });
     });
 };
@@ -34,24 +202,25 @@ updateQueueInsertTime=(tag,time)=>{
 
 insertPengujianSummary = (tag,jumlah) => {
     return new Promise((resolve, reject)=>{
+        let today=moment(new Date());
         pengujianSummaryCollection.insertOne({
             tag:tag,
             jumlah:jumlah,
-            mulai_pengujian:new Date()
+            mulai_pengujian:new Date(),
+            tanggal:today.format("dddd, DD/MM/YYYY",'id'),
+            waktu:today.format("HH:mm:ss")
         }, (err, result) => {
             if(err) reject(err);
             else resolve(result);
         });
     });
 };
-insertPengujian = (tag,antrian,start) => {
+insertPengujian = (tag,antrian,start,timeinqueue) => {
     return new Promise((resolve, reject)=>{
-        let end = new Date().getTime();
-        let timeDifferenceinSecond=(end-start)/1000;
         pengujianCollection.insertOne({
             tag:tag,
             antrian:antrian,
-            waktuproses:timeDifferenceinSecond
+            waktudalamantrian:timeinqueue,
         }, (err, result) => {
             if(err) reject(err);
             else resolve(result);
@@ -139,7 +308,6 @@ getListAbsenByMacIDStartEndTime = (MacID,StartTime,EndTime) => {
                 $lt:new Date(EndTime)
             }
         }).toArray( (err, results) => {
-            console.log(results)
             if(err)reject(err);
             else {
                 iterateAbsenList(MacID,results,function (err,iteratedResult) {
@@ -373,5 +541,13 @@ module.exports = {
     insertPengujianSummary:insertPengujianSummary,
     updateQueueInsertTime:updateQueueInsertTime,
     insertPengujian:insertPengujian,
-    getListPengujian:getListPengujian
+    getListPengujian:getListPengujian,
+    ratarataWaktuPengujian:ratarataWaktuPengujian,
+    getSummaryPengujian:getSummaryPengujian,
+    getListDetailPengujian:getListDetailPengujian,
+    updateInsertToDbTime:updateInsertToDbTime,
+    ratarataWaktuSimpanDatabase:ratarataWaktuSimpanDatabase,
+    ratarataWaktuDalamAntrian:ratarataWaktuDalamAntrian,
+    getListDetailWaktuSimpanDB:getListDetailWaktuSimpanDB,
+    getListDetailWaktuDalamAntrian:getListDetailWaktuDalamAntrian
 };

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Absensi</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <link href="/dist/semantic.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="/assets/images/absensi.png"/>
+  <style>
+    container-body {
+      background: url('https://www.planwallpaper.com/static/images/i-should-buy-a-boat.jpg') fixed;
+      background-size: cover;
+      padding: 0;
+      margin: 0;
+    }
+
+    .form-holder {
+      background: rgba(255,255,255,0.2);
+      margin-top: 10%;
+      border-radius: 3px;
+    }
+
+
+
+    .remember-me {
+      text-align: left;
+    }
+    .ui.checkbox label {
+      color: #ddd;
+    }
+
+  </style>
+</head>
+<body style="height: 100%">
+<script type="text/javascript" src="/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/dist/semantic.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://cdn.rawgit.com/mdehoog/Semantic-UI/6e6d051d47b598ebab05857545f242caf2b4b48c/dist/semantic.min.js"></script>
+<script src="http://d3js.org/d3.v3.js"></script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<meta charset="utf-8">
+<meta name="_token" content="{{ csrf_token() }}">
+<div class="ui container" style="width: 100% ;height: 100%;padding-left:5%;padding-right: 5% ">
+
+  <div class="ui secondary pointing menu" style="padding: 5px" >
+    <div class="right menu">
+      <a class="item" href="/datapengujian">Hasil Pengujian</a>
+    </div>
+  </div>
+  <div class="ui container">
+    <form class="ui form" id="searchForm">
+
+      <div class="field" style="margin-top: 10px">
+        <h4 id="ket" style="color: black">Masukan Nama atau Tag untuk Pengujian</h4>
+        <input type="text" name="tag" id="tag" placeholder="contoh : Pengujian_10000">
+      </div>
+      <div class="field" style="margin-top: 10px">
+        <h4 id="ket" style="color: black">Masukan Jumlah Data Yang Ingin Di Tes</h4>
+        <input type="text" name="jumlah" id="jumlah" placeholder="contoh : 10000">
+      </div>
+      <div class="ui center aligned field">
+        <button class="ui button blue" name="mulaiUji" id="mulaiUji" style="width: 100%">Mulai Pengujian</button>
+      </div>
+    </form>
+    <br>
+    <div id="showerror" class="ui ignored negative message" style="display:none">
+    </div>
+
+    </div>
+  <textarea id="statusText" style="width: 100%;height: 100%"></textarea>
+  </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        let statusTextArea=document.getElementById("statusText");
+        $( "#searchForm" ).submit(function( event ) {
+            let tag=$('#tag').val();
+            let jumlah=parseInt($('#jumlah').val());
+            $.post('/absensi/pengujian',{ tag: tag,jumlah:jumlah},
+                function(data) {
+                    console.log(data);
+                }
+            );
+
+            event.preventDefault()
+        });
+
+        let socket = io( "<%=URL_Service%>" );
+        socket.on('status', function(msg){
+            console.log(msg);
+            statusTextArea.value +='\n'+msg;
+        });
+
+    });
+
+
+</script>
+</body>
+</html>
