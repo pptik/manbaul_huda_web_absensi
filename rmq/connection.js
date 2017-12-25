@@ -116,7 +116,7 @@ consume2 = async (connection) => {
        let timeAfterSaveToDb=new Date().getTime();
        let timeForInsertToDatabase=(timeAfterSaveToDb-timeBeforeInsertToDatabase)/1000;
        let proccessTime=(timeAfterSaveToDb-query.starttime)/1000;
-       io.emit('status', query.tag+" success saving data "+query.antrian+" to database"+", Proccess Time : " +proccessTime+", Time in Queue : "+query.timeinqueue+", Time For Saving to DB : "+timeForInsertToDatabase);
+       //io.emit('status', query.tag+" success saving data "+query.antrian+" to database"+", Proccess Time : " +proccessTime+", Time in Queue : "+query.timeinqueue+", Time For Saving to DB : "+timeForInsertToDatabase);
        absensiModel.updateInsertToDbTime(query.tag,query.antrian,timeForInsertToDatabase,proccessTime);
     }catch(err) {
         console.log(err);
