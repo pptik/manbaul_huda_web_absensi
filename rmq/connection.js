@@ -6,13 +6,14 @@ let absensiModel = require('../model/absensi_model');
 const app = require('../app');
 const moment = require('moment');
 let io = app.io;
-
+let connection2;
 
 /** connect to rabbit**/
 connect = async() => {
     try {
         let connection = await rmq.connect(rmq_config.broker_uri);
-        let connection2=await rmq.connect(rmq_config.broker_uri2);
+        connection2=await rmq.connect(rmq_config.broker_uri2);
+        connection2.on("error",function(e) { log(e);  });
         await consume(connection);
         await consume2(connection2);
     }catch (er){
